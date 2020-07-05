@@ -125,37 +125,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\bishop.cpp" />
-    <ClCompile Include="src\board.cpp" />
-    <ClCompile Include="src\chessgame.cpp" />
-    <ClCompile Include="src\king.cpp" />
-    <ClCompile Include="src\knight.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\minmax.cpp" />
-    <ClCompile Include="src\move.cpp" />
-    <ClCompile Include="src\piece.cpp" />
-    <ClCompile Include="src\pown.cpp" />
-    <ClCompile Include="src\queen.cpp" />
-    <ClCompile Include="src\rook.cpp" />
-    <ClCompile Include="src\moveinfo.cpp" />
-    <ClCompile Include="src\square.cpp" />
-    <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\bishop.h" />
-    <ClInclude Include="inc\board.h" />
-    <ClInclude Include="inc\chess.h" />
-    <ClInclude Include="inc\chessgame.h" />
-    <ClInclude Include="inc\king.h" />
-    <ClInclude Include="inc\knight.h" />
-    <ClInclude Include="inc\macros.h" />
-    <ClInclude Include="inc\move.h" />
-    <ClInclude Include="inc\piece.h" />
-    <ClInclude Include="inc\pown.h" />
-    <ClInclude Include="inc\queen.h" />
-    <ClInclude Include="inc\rook.h" />
-    <ClInclude Include="inc\moveinfo.h" />
-    <ClInclude Include="inc\square.h" />
+    <ProjectReference Include="lib\zclib\zclib.vcxproj">
+      <Project>{dfc29b55-01ab-4018-84fb-8d21fdab376b}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
