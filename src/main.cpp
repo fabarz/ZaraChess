@@ -73,9 +73,6 @@
  *
  *
  */
-#if defined WIN32
-#include <windows.h>
-#endif
 
 #include "chessgame.h"
 #include "minmax.h"
@@ -172,10 +169,6 @@ int main(int32_t argc, char ** argv) {
 	bool computerMove = false;
 
 	while (aMove != "exit") {
-
-#if defined WIN32
-		Sleep(100);
-#endif
 
 		if (!go && computerMove == false) {
 			cin >> aMove;

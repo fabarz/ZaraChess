@@ -43,7 +43,7 @@
 
 #include "chess.h"
 #include "move.h"
-#include "situation.h"
+#include "moveinfo.h"
 #include "board.h"
 #include "king.h"
 #include "minmax.h"
@@ -77,24 +77,24 @@ class ChessGame : Board {
 		Square * s1 = squares[m.x1][m.y1];
 		Square * s2 = squares[m.x2][m.y2];
 
-		undoSitu = Situation(s1, s2, s1->getPiece(), this, m.promotePiece);
+		moveInfo = MoveInfo(s1, s2, s1->getPiece(), this, m.promotePiece);
 
-		undoSitu.mover->do_move(undoSitu);
+		moveInfo.mover->do_move(moveInfo);
 
 		//Save this situation
-		situs.push_back(undoSitu);
+		moveInfoStack.push_back(moveInfo);
 
 		//Find out weather it is remese by repetition
 
-		if (situs.size() < 6) return;
+		if (moveInfoStack.size() < 6) return;
 
-		Situations::iterator it = situs.end();
+		MoveInfoStack::iterator it = moveInfoStack.end();
 		
 		--it;
-		Situations::iterator sit6 = it;	//B
+		MoveInfoStack::iterator sit6 = it;	//B
 
 		--it;
-		Situations::iterator sit5 = it; //W
+		MoveInfoStack::iterator sit5 = it; //W
 
 		--it;
 		//Situations::iterator sit4 = it; //B
@@ -103,10 +103,10 @@ class ChessGame : Board {
 		//Situations::iterator sit3 = it; //W
 
 		--it;
-		Situations::iterator sit2 = it; //B
+		MoveInfoStack::iterator sit2 = it; //B
 
 		--it;
-		Situations::iterator sit1 = it; //W
+		MoveInfoStack::iterator sit1 = it; //W
 		
 		/*if (sit1->s1 == sit3->s2 && sit1->s2 == sit3->s1 
 			&& sit2->s1 == sit4->s2 && sit2->s2 == sit4->s1
@@ -124,15 +124,15 @@ class ChessGame : Board {
 	bool makeMoveStr(string & m);
 
 	void undoMove() {
-		if (situs.empty()) {
+		if (moveInfoStack.empty()) {
 			cout << "Error!, Can not undo any more.\n";
 			return;
 		}
 
-		undoSitu = situs.back();
-		situs.pop_back();
+		moveInfo = moveInfoStack.back();
+		moveInfoStack.pop_back();
 
-		undoMove(undoSitu);
+		undoMove(moveInfo);
 	}
 
 	Move listMoves();
@@ -147,8 +147,8 @@ class ChessGame : Board {
 
 	private :
 
-	Situation undoSitu;	
-	MovesPointersArray ppmvs;
+	MoveInfo moveInfo;	
+	MovesPossiblePerDepth movesInDepth;
 
 	int32_t halfRandom = (RAND_MAX / 2);
 
@@ -157,12 +157,12 @@ class ChessGame : Board {
 	Move my2Move;
 
 	void init();
-	void getSortedLegalMoves (Moves & moves);
-	void getLegalMoves (Moves & moves);	
+	void getSortedLegalMoves (MovesPossible & moves);
+	void getLegalMoves (MovesPossible & moves);	
 
-	bool checkMove(Situation & _situation);
+	bool checkMove(MoveInfo & _situation);
 
-	void undoMove(Situation & _situation);
+	void undoMove(MoveInfo & _situation);
 
 	bool pieceCanMoveTo(Piece * p, Square *s) {
 		int32_t x, y;

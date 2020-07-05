@@ -34,7 +34,7 @@
 #include "chess.h"
 #include "macros.h"
 
-class Situation;
+class MoveInfo;
 class Square;
 class ChessGame;
 class Board;
@@ -88,8 +88,8 @@ class Piece {
 
 	void makeHandicap(SomeSquares & squaresBetweenKingAndPinner);
 
-	virtual void do_move(Situation & situ);
-	virtual Piece * undo_move(Situation & situ);
+	virtual void do_move(MoveInfo & situ);
+	virtual Piece * undo_move(MoveInfo & situ);
 
 	bool attacksAKingAt(Square * s);
 

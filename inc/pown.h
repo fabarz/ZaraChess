@@ -50,8 +50,8 @@ class Pown : public Piece {
 
 	void squareChanged(Square * s);
 
-	void do_move(Situation & situ);
-	Piece * undo_move(Situation & situ);
+	void do_move(MoveInfo & situ);
+	Piece * undo_move(MoveInfo & situ);
 
 	bool canPromote() {return true;}
 

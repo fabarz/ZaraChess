@@ -46,8 +46,8 @@ class Rook : public Piece {
 	Rook(Color c, Board * b);
 	virtual ~Rook();
 
-	void do_move(Situation & situ);
-	Piece * undo_move(Situation & situ);
+	void do_move(MoveInfo & situ);
+	Piece * undo_move(MoveInfo & situ);
 
 	bool isEngagedInCastling() {return true;}
 

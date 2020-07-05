@@ -30,7 +30,7 @@
 
 #include "piece.h"
 #include "square.h"
-#include "situation.h"
+#include "moveinfo.h"
 #include "board.h"
 #include "king.h"
 
@@ -274,7 +274,7 @@ bool Piece::attacksAKingAt(Square * s) {
 	return (s->x != square->x);
 }
 
-Piece * Piece::undo_move(Situation & situ) {
+Piece * Piece::undo_move(MoveInfo & situ) {
 
 	assert (situ.col == opponent(situ.opponentColor));
 
@@ -291,7 +291,7 @@ Piece * Piece::undo_move(Situation & situ) {
 	return p;
 }
 
-void Piece::do_move(Situation & situ) {
+void Piece::do_move(MoveInfo & situ) {
 
 	/* If a pown was promoted then don't call it again */
 	if (situ.mover == this) {

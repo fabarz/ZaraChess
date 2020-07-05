@@ -154,7 +154,7 @@
     <ClInclude Include="inc\pown.h" />
     <ClInclude Include="inc\queen.h" />
     <ClInclude Include="inc\rook.h" />
-    <ClInclude Include="inc\situation.h" />
+    <ClInclude Include="inc\moveinfo.h" />
     <ClInclude Include="inc\square.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

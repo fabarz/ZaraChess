@@ -38,7 +38,7 @@
  */
 
 #include "king.h"
-#include "situation.h"
+#include "moveinfo.h"
 
 /*******************************************************************************
  *
@@ -332,7 +332,7 @@ void King::lookForPinnedAndCheckers() {
 
 }
 
-void King::do_move(Situation & situ) {
+void King::do_move(MoveInfo & situ) {
 
 	situ.b->saveSituation(situ);
 
@@ -403,7 +403,7 @@ void King::do_move(Situation & situ) {
 	assert(square);
 }
 
-Piece * King::undo_move(Situation & situ) {
+Piece * King::undo_move(MoveInfo & situ) {
 
 	assert (situ.col == opponent(situ.opponentColor));
 	assert (situ.mover == this);

@@ -2,6 +2,7 @@
 #define MOVE_H_INCLUDED
 
 #include "chess.h"
+class MoveInfo;
 
 extern const char * squareNames[8][8];
 
@@ -45,12 +46,14 @@ class Move {
 	}
 };
 
+typedef list<Move> MovesPossible;
+typedef vector<MovesPossible> MovesPossiblePerDepth;
+typedef vector<MoveInfo> MoveInfoStack;
+
 ostream & operator <<(ostream & os, Move & m);
 ostream & operator <<(ostream & os, const Move & m);
 bool operator < (Move & m1, Move & m2);
 bool operator < (const Move & m1, const Move & m2);
-
-typedef vector<Moves> MovesPointersArray;
 
 #endif
 

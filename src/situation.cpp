@@ -1,13 +1,9 @@
 
-#if defined WIN32
-#pragma warning (disable:4786)
-#endif
-
-#include "situation.h"
+#include "moveinfo.h"
 
 #define DUMP_SQUARE(x) if (x) cout << "\t" << #x << " =:= " << x->getName() << endl
 
-ostream & operator<< (ostream & os, Situation & s) {
+ostream & operator<< (ostream & os, MoveInfo & s) {
 	cout << "Situation dump:\n";
 	DUMP_SQUARE(s.s1);
 	DUMP_SQUARE(s.s2);

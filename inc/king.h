@@ -53,8 +53,8 @@ class King : public Piece {
 
 	void lookForPinnedAndCheckers();
 
-	void do_move(Situation & situ);
-	Piece * undo_move(Situation & situ);
+	void do_move(MoveInfo & situ);
+	Piece * undo_move(MoveInfo & situ);
 
 	bool isCheck() { return checker1 != 0; }
 

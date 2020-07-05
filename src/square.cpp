@@ -35,10 +35,6 @@
  */
 
 
-#if defined WIN32
-#pragma warning (disable:4786)
-#endif
-
 #include "chess.h"
 #include "square.h"
 #include "board.h"

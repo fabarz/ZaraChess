@@ -98,10 +98,10 @@
     <ClInclude Include="inc\rook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\situation.h">
+    <ClInclude Include="inc\square.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\square.h">
+    <ClInclude Include="inc\moveinfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -41,10 +41,6 @@
  */
 
 
-#if defined WIN32
-#include <windows.h>
-#endif
-
 #include "chessgame.h"
 
 int32_t ChessGame::alphaBeta(int32_t _depth, int32_t alpha, int32_t beta) {
@@ -59,18 +55,18 @@ int32_t ChessGame::alphaBeta(int32_t _depth, int32_t alpha, int32_t beta) {
 		return cg->evaluatePosition();
 	}
 
-	if (ppmvs.size() < _depth + 1)
+	if (movesInDepth.size() < _depth + 1)
 	{
-		ppmvs.resize(_depth + 1);
+		movesInDepth.resize(_depth + 1);
 	}
 
-	Moves mvs = ppmvs[_depth];
+	MovesPossible mvs = movesInDepth[_depth];
 
 	mvs.clear();
 
 	cg->getSortedLegalMoves(mvs);
 
-	Moves::iterator mit = mvs.begin();
+	MovesPossible::iterator mit = mvs.begin();
 
 	int32_t eval;
 
@@ -91,7 +87,7 @@ int32_t ChessGame::alphaBeta(int32_t _depth, int32_t alpha, int32_t beta) {
 
 	bool foundPvs = false;	
 
-	Moves::iterator mendIt = mvs.end();
+	MovesPossible::iterator mendIt = mvs.end();
 
 	while (mit != mendIt) {
 

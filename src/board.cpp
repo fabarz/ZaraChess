@@ -69,10 +69,6 @@
  *
  ******************************************************************************************************************************/
 
-#if defined WIN32
-#pragma warning (disable:4786)
-#endif
-
 #include "board.h"
 #include "king.h"
 #include "queen.h"
@@ -80,7 +76,7 @@
 #include "knight.h"
 #include "rook.h"
 #include "pown.h"
-#include "situation.h"
+#include "moveinfo.h"
 
 /*******************************************************************************************************************************
  *
@@ -130,7 +126,7 @@ ostream & operator << (ostream & os, Board & cg) {
 
 
 Board::Board(string & fen, Color sidesMove, Square * enPas, bool wccqs, bool wccks,
-			 bool bccqs, bool bccks) : situs() {
+			 bool bccqs, bool bccks) : moveInfoStack() {
 
 	for (int z = 0; z < BOARD_SIZE; z++) {
 		pownOnX[0][z] = 0;
@@ -228,7 +224,9 @@ Board::Board(string & fen, Color sidesMove, Square * enPas, bool wccqs, bool wcc
  * return value	: None
  ******************************************************************************************************************************/
 
-Board::Board() : situs() {
+Board::Board() : moveInfoStack() {
+
+	moveInfoStack.reserve(100);
 
 	for (int z = 0; z < BOARD_SIZE; z++) {
 		pownOnX[0][z] = 0;
@@ -728,7 +726,7 @@ void Board::updateKings() {
 
 #define ringIfNotZero(s) {if (s) s->ringPieces();}
 
-void Board::updateEffectedPieces(Situation & newSitu) {
+void Board::updateEffectedPieces(MoveInfo & newSitu) {
 	assert (newSitu.s1);
 	assert (newSitu.s2);
 
@@ -792,7 +790,7 @@ void Board::updateEffectedPieces(Situation & newSitu) {
 
 //************************************************************************************
 
-void Board::updateEffectedPiecesByUndo(Situation & newSitu) {
+void Board::updateEffectedPiecesByUndo(MoveInfo & newSitu) {
 
 	assert (newSitu.s1);
 	assert (newSitu.s2);
@@ -861,7 +859,7 @@ void Board::updateEffectedPiecesByUndo(Situation & newSitu) {
 
 //====================================================================
 
-void Board::saveSituation(Situation & situ) {
+void Board::saveSituation(MoveInfo & situ) {
 
 /*struct Situation {
 	class Board * b;						Filled by the caller
@@ -931,9 +929,9 @@ void Board::saveSituation(Situation & situ) {
 
 			cout << " +++++++++++++++ The last moves : ++++++++++++++ \n";
 
-			Situations::iterator sit = situs.begin();
+			MoveInfoStack::iterator sit = moveInfoStack.begin();
 
-			while (sit != situs.end()) {
+			while (sit != moveInfoStack.end()) {
 				cout << *sit;
 				++sit;
 			}
@@ -947,9 +945,9 @@ void Board::saveSituation(Situation & situ) {
 
 			cout << " +++++++++++++++ The last moves : ++++++++++++++ \n";
 
-			Situations::iterator sit = situs.begin();
+			MoveInfoStack::iterator sit = moveInfoStack.begin();
 
-			while (sit != situs.end()) {
+			while (sit != moveInfoStack.end()) {
 				cout << *sit;
 				++sit;
 			}
@@ -968,7 +966,7 @@ void Board::saveSituation(Situation & situ) {
 	}
 }
 
-Piece * Board::restoreSituation(Situation & situ) {
+Piece * Board::restoreSituation(MoveInfo & situ) {
 
 	Piece * promoted = 0;
 

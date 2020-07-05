@@ -44,7 +44,8 @@
  ******************************************************************************/
 
 #include "square.h"
-#include "situation.h"
+#include "moveinfo.h"
+#include "move.h"
 
 class King;
 class Board;
@@ -176,11 +177,11 @@ class Board {
 
 	void updateKings();
 
-	void updateEffectedPieces(Situation & newSitu);
-	void updateEffectedPiecesByUndo(Situation & newSitu);
+	void updateEffectedPieces(MoveInfo & newSitu);
+	void updateEffectedPiecesByUndo(MoveInfo & newSitu);
 
-	void saveSituation(Situation & situ);
-	Piece * restoreSituation(Situation & situ);
+	void saveSituation(MoveInfo & situ);
+	Piece * restoreSituation(MoveInfo & situ);
 
 	void updateAllPieces(Color c); /* if c == none both */
 
@@ -215,7 +216,7 @@ class Board {
 
 	bool repeated;
 
-	Situations situs;
+	MoveInfoStack moveInfoStack;
 
 	Square * enPassantSquare[2];
 

@@ -38,10 +38,6 @@
  *
  */
 
-#if defined WIN32
-#pragma warning (disable:4786)
-#endif
-
 #include "chessgame.h"
 #include <iterator>
 
@@ -86,15 +82,15 @@ ostream & operator<< (ostream & os, ChessGame & cg) {
  *
  ******************************************************************************/
 
-ChessGame::ChessGame() : Board(), undoSitu(0,0,0,0, 'Q'), ppmvs(20) {
+ChessGame::ChessGame() : Board(), moveInfo(0,0,0,0, 'Q'), movesInDepth(20) {
 	init();
 }
 
-ChessGame::ChessGame(string & fen) : Board(fen, WHITE, 0, 0, 0, 0, 0), undoSitu(0,0,0,0, 'Q'), ppmvs(20) {
+ChessGame::ChessGame(string & fen) : Board(fen, WHITE, 0, 0, 0, 0, 0), moveInfo(0,0,0,0, 'Q'), movesInDepth(20) {
 	init();
 }
 
-ChessGame::ChessGame(ChessGame & other) : Board(other), undoSitu(0,0,0,0,'Q'), ppmvs(20) {
+ChessGame::ChessGame(ChessGame & other) : Board(other), moveInfo(0,0,0,0,'Q'), movesInDepth(20) {
 	init();
 }
 
@@ -118,13 +114,13 @@ bool ChessGame::checkMove(Move & m) {
 		return false;
 	}
 
-	Situation situation1(s1, s2, s1->getPiece(), this, m.promotePiece);
+	MoveInfo situation1(s1, s2, s1->getPiece(), this, m.promotePiece);
 
 	return checkMove(situation1);
 
 }
 
-bool ChessGame::checkMove(Situation & _situation) {
+bool ChessGame::checkMove(MoveInfo & _situation) {
 	if (!_situation.s1 || !_situation.s2) {
 		cout << "One or both sqaues not valid.\n";
 		return false;
@@ -168,20 +164,20 @@ bool ChessGame::makeMoveStr(string & m) {
 		return false;
 	}
 
-	undoSitu = Situation(s1, s2, s1->getPiece(), this, promotionPiece[sideToMove]);
+	moveInfo = MoveInfo(s1, s2, s1->getPiece(), this, promotionPiece[sideToMove]);
 
-	if (!checkMove(undoSitu))
+	if (!checkMove(moveInfo))
 		return false;
 
-	undoSitu.mover->do_move(undoSitu);
+	moveInfo.mover->do_move(moveInfo);
 
 	//Save this situation
-	situs.push_back(undoSitu);
+	moveInfoStack.push_back(moveInfo);
 
 	return true;
 }
 
-void ChessGame::undoMove( Situation & _situation) {
+void ChessGame::undoMove( MoveInfo & _situation) {
 
 
 #if defined _DEBUG
@@ -207,12 +203,12 @@ void ChessGame::undoMove( Situation & _situation) {
 
 }
 
-void ChessGame::getSortedLegalMoves (Moves & moves) {
+void ChessGame::getSortedLegalMoves (MovesPossible & moves) {
 
 	getLegalMoves(moves);
 
-	Moves::iterator it = moves.begin();
-	Moves::iterator endIt = moves.end();
+	MovesPossible::iterator it = moves.begin();
+	MovesPossible::iterator endIt = moves.end();
 
 	while (it != endIt) {
 
@@ -246,7 +242,7 @@ void ChessGame::getSortedLegalMoves (Moves & moves) {
 	moves.sort();
 }
 
-void ChessGame::getLegalMoves (Moves & moves) {
+void ChessGame::getLegalMoves (MovesPossible & moves) {
 
 	Move m;
 
@@ -316,11 +312,11 @@ Move ChessGame::listMoves() {
 
 	Move result;
 
-	Moves m;
+	MovesPossible m;
 
 	getSortedLegalMoves(m);
 
-	Moves::iterator it = m.begin();
+	MovesPossible::iterator it = m.begin();
 	
 	while (it != m.end()) {
 		Move m1 = *it;

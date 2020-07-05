@@ -33,7 +33,7 @@
 
 #include "pown.h"
 #include "board.h"
-#include "situation.h"
+#include "moveinfo.h"
 
 /*******************************************************************************
  *
@@ -267,7 +267,7 @@ void Pown::updateToSquares(int32_t x, int32_t y) {
 	}
 }
 
-void Pown::do_move(Situation & situ) {
+void Pown::do_move(MoveInfo & situ) {
 
 	situ.b->saveSituation(situ);
 
@@ -387,7 +387,7 @@ void Pown::do_move(Situation & situ) {
 	situ.b->updateEffectedPieces(situ);
 }
 
-Piece * Pown::undo_move(Situation & situ) {
+Piece * Pown::undo_move(MoveInfo & situ) {
 
 	/* The first thing is to restore the pown back */
 	situ.s2->setPiece(0);

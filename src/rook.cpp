@@ -33,7 +33,7 @@
 
 #include "rook.h"
 #include "king.h"
-#include "situation.h"
+#include "moveinfo.h"
 
 /*******************************************************************************
  *
@@ -110,7 +110,7 @@ void Rook::updateToSquares(int32_t x, int32_t y) {
 	}
 }
 
-Piece * Rook::undo_move(Situation & situ) {
+Piece * Rook::undo_move(MoveInfo & situ) {
 
 	assert (situ.col == opponent(situ.opponentColor));
 	/* Do the actual move */
@@ -124,7 +124,7 @@ Piece * Rook::undo_move(Situation & situ) {
 	return p;
 }
 
-void Rook::do_move(Situation & situ) {
+void Rook::do_move(MoveInfo & situ) {
 
 	/* If a pown was promoted then don't call it again
 		It has already called the saveSituation method */

@@ -34,14 +34,6 @@
 #if !defined CHESS_H_INCLUDED
 #define CHESS_H_INCLUDED
 
-#if defined WIN32
-#pragma warning (disable:4786)
-#else
-#define __int64 long long
-#endif
-
-
-
 #include <list>
 #include <vector>
 #include <iostream>
@@ -73,20 +65,9 @@ enum Color {
 
 typedef unsigned __int64 SomeSquares;
 
-#define Moves		list<Move>
-#define Situations	list<Situation>
-
 #define MAX_PIECES_PER_SIDE 16
 
 #define NO_UID -1
-
-#if defined WIN32
-
-#define random rand
-#define srandom srand
-
-#endif
-
 
 #endif
 
