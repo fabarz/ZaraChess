@@ -50,8 +50,7 @@ ostream & operator <<(ostream & os, const Move & m);
 bool operator < (Move & m1, Move & m2);
 bool operator < (const Move & m1, const Move & m2);
 
-typedef Moves * MovesPointersArray[100];
-typedef MovesPointersArray * PMovesPointersArray;
+typedef vector<Moves> MovesPointersArray;
 
 #endif
 

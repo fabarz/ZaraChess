@@ -149,7 +149,6 @@
     <ClInclude Include="inc\king.h" />
     <ClInclude Include="inc\knight.h" />
     <ClInclude Include="inc\macros.h" />
-    <ClInclude Include="inc\minmax.h" />
     <ClInclude Include="inc\move.h" />
     <ClInclude Include="inc\piece.h" />
     <ClInclude Include="inc\pown.h" />

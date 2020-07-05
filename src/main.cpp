@@ -80,12 +80,6 @@
 #include "chessgame.h"
 #include "minmax.h"
 
-int depth1 = 5;
-uint32_t nodes;
-extern Move BESTMOVE;
-
-MovesPointersArray movesStore;
-
 void help() {
 	cout << " This program accepts the following commands: \n";
 	cout << "\t init  : To start a new game.\n";
@@ -106,6 +100,8 @@ void help() {
 }
 
 int main(int32_t argc, char ** argv) {
+
+	int depth1 = 5;
 
 	srand((uint32_t) time(0));
 
@@ -169,12 +165,6 @@ int main(int32_t argc, char ** argv) {
 	string aMove;
 	Move bestmove;
 
-	int32_t idx;
-
-	for (idx = 0; idx < 100; idx++) {
-		movesStore[idx] = new Moves();
-	}
-
 	int32_t no = 1;
 	bool go = false;
 	int32_t v = -1;
@@ -220,13 +210,13 @@ int main(int32_t argc, char ** argv) {
 
 		else if (aMove == "look") {
 
-			nodes = 0;
+			game->nodes = 0;
 
-			v = alphaBeta(game, depth1, -CHECKMATE-100, CHECKMATE+100, movesStore);
+			v = game->alphaBeta(depth1, -CHECKMATE-100, CHECKMATE+100);
 
-			bestmove = BESTMOVE;
+			bestmove = game->BESTMOVE;
 
-			cout << "\n\t\t **** " << (unsigned int) nodes << " nodes evaluated. ***\n";
+			cout << "\n\t\t **** " << (unsigned int) game->nodes << " nodes evaluated. ***\n";
 
 			if (game->getSideToMove() == BLACK)
 				cout << no << ". ... ";
@@ -243,7 +233,7 @@ int main(int32_t argc, char ** argv) {
 				cout << (int) bestmove.value << endl;
 			}
 
-			if (!nodes) {
+			if (!game->nodes) {
 				cout << *game;
 				go = false;
 
@@ -327,10 +317,6 @@ int main(int32_t argc, char ** argv) {
 	cin.ignore();
 
 	delete game;
-
-	for (idx = 0; idx < 100; idx++) {
-		delete movesStore[idx];
-	}
 
 	return 0;
 }

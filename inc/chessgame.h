@@ -66,9 +66,9 @@ class ChessGame : Board {
 
 	~ChessGame();
 
-	friend ostream & operator<< (ostream & os, ChessGame & cg);
+	int32_t alphaBeta(int32_t depth, int32_t alpha, int32_t beta);
 
-	friend int32_t alphaBeta(ChessGame * cg, int32_t depth, int32_t alpha, int32_t beta, Moves ** ppmvs);
+	friend ostream & operator<< (ostream & os, ChessGame & cg);
 
 	bool checkMove(Move & m);
 
@@ -141,12 +141,24 @@ class ChessGame : Board {
 
 	int32_t evaluateMove(Move & m);
 
+	Move BESTMOVE;
+	uint32_t nodes;
+	int depth;
+
 	private :
 
 	Situation undoSitu;	
+	MovesPointersArray ppmvs;
 
-	void getSortedLegalMoves (Moves * moves);
-	void getLegalMoves (Moves * moves);	
+	int32_t halfRandom = (RAND_MAX / 2);
+
+	Move levelUp;
+	Move opponentsMove;
+	Move my2Move;
+
+	void init();
+	void getSortedLegalMoves (Moves & moves);
+	void getLegalMoves (Moves & moves);	
 
 	bool checkMove(Situation & _situation);
 
@@ -159,7 +171,6 @@ class ChessGame : Board {
 
 		return bitIsOn64_2(ts, x, y);
 	}
-
 };
 
 

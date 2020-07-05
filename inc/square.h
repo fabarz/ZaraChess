@@ -62,8 +62,6 @@ class Square {
 	friend class King; /* Can access x and y */
 	friend class Piece; /* Can access x and y */
 
-	friend int32_t alphaBeta(ChessGame * cg, int32_t depth, int32_t alpha, int32_t beta, Move & bestmove);
-
 	~Square();
 
 	string & getName() {return name;}

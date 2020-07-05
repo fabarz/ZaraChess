@@ -45,37 +45,32 @@
 #include <windows.h>
 #endif
 
-#include "minmax.h"
 #include "chessgame.h"
 
-extern uint32_t nodes;
-extern int depth1;
-
-int32_t halfRandom = (RAND_MAX / 2);
-
-Move BESTMOVE;
-Move levelUp;
-static Move opponentsMove;
-static Move my2Move;
-
-int32_t alphaBeta(ChessGame * cg, int32_t depth, int32_t alpha, int32_t beta, Moves ** ppmvs) {
+int32_t ChessGame::alphaBeta(int32_t _depth, int32_t alpha, int32_t beta) {
+	ChessGame * cg = this;
 
 	if (cg->nMoves[cg->sideToMove] == 0) {
-		if (cg->KINGS[cg->sideToMove]->isCheck()) return -CHECKMATE - depth;
+		if (cg->KINGS[cg->sideToMove]->isCheck()) return -CHECKMATE - _depth;
 		else return 0;
 	}
 
-	if (depth <= 0)	{
+	if (_depth <= 0)	{
 		return cg->evaluatePosition();
 	}
 
-	Moves * mvs = *(ppmvs + depth);
+	if (ppmvs.size() < _depth + 1)
+	{
+		ppmvs.resize(_depth + 1);
+	}
 
-	mvs->clear();
+	Moves mvs = ppmvs[_depth];
+
+	mvs.clear();
 
 	cg->getSortedLegalMoves(mvs);
 
-	Moves::iterator mit = mvs->begin();
+	Moves::iterator mit = mvs.begin();
 
 	int32_t eval;
 
@@ -87,7 +82,7 @@ int32_t alphaBeta(ChessGame * cg, int32_t depth, int32_t alpha, int32_t beta, Mo
 		nodes += 1;
 		//This makes it faster. but there is one problem
 		//IT can not find the fastest mate. It is not clear why ????
-		if (depth1 == depth)
+		if (depth == _depth)
 			BESTMOVE = *mit;
 
 		return -mit->value;
@@ -96,14 +91,14 @@ int32_t alphaBeta(ChessGame * cg, int32_t depth, int32_t alpha, int32_t beta, Mo
 
 	bool foundPvs = false;	
 
-	Moves::iterator mendIt = mvs->end();
+	Moves::iterator mendIt = mvs.end();
 
 	while (mit != mendIt) {
 
-		if(depth == depth1) {
+		if(_depth == depth) {
 			levelUp = *mit;
 		} else {
-			if (depth == depth1 - 1) {
+			if (_depth == depth - 1) {
 				cout << "\r    " << levelUp << " " << *mit << " (Node " << (int) nodes << ") alpha = "
 					<< alpha << " & beta = " << beta << "          ";
 			}
@@ -116,20 +111,20 @@ int32_t alphaBeta(ChessGame * cg, int32_t depth, int32_t alpha, int32_t beta, Mo
 		if (cg->repeated) {
 			cg->undoMove();
 			cg->repeated = false;
-			if (depth == depth1) {
+			if (_depth == depth) {
 				levelUp.value = 0;
 			}
 			return 0;
 		}
 
 		if (foundPvs) {
-			eval = -alphaBeta(cg, depth - 1, -alpha - 1, -alpha, ppmvs);
+			eval = -alphaBeta(_depth - 1, -alpha - 1, -alpha);
 
 			if ((eval > alpha) && (eval < beta)) {/* Check for failure. */
-				eval = -alphaBeta(cg, depth - 1, -beta, -alpha, ppmvs);
+				eval = -alphaBeta(_depth - 1, -beta, -alpha);
 			}
 		} else
-			eval = -alphaBeta(cg, depth - 1, -beta, -alpha, ppmvs);
+			eval = -alphaBeta(_depth - 1, -beta, -alpha);
 
 		cg->undoMove();
 
@@ -140,7 +135,7 @@ int32_t alphaBeta(ChessGame * cg, int32_t depth, int32_t alpha, int32_t beta, Mo
 			foundPvs = true;
 			alpha = eval;
 
-			if (depth == depth1) {
+			if (_depth == depth) {
 
 				mit->value = alpha;
 				BESTMOVE = *mit;
@@ -148,24 +143,24 @@ int32_t alphaBeta(ChessGame * cg, int32_t depth, int32_t alpha, int32_t beta, Mo
 					<< " = ";
 
 				if (abs(BESTMOVE.value) >= CHECKMATE) {
-					cout << "CHECKMATE in " << depth1 - (abs(BESTMOVE.value) - CHECKMATE);
+					cout << "CHECKMATE in " << depth - (abs(BESTMOVE.value) - CHECKMATE);
 				} else {
 					cout << BESTMOVE.value;
 				}
 
 				cout << "                                                       ";
 
-			} else if (depth == depth1 - 1) {
+			} else if (_depth == depth - 1) {
 
 				opponentsMove = *mit;
 
-			} else if (depth == depth1 - 2) {
+			} else if (_depth == depth - 2) {
 
 				my2Move = *mit;
 
 			}
 
-			if (eval == CHECKMATE + depth - 1) {
+			if (eval == CHECKMATE + _depth - 1) {
 				//cout << " Direct mate "; 
 				return eval;
 			}

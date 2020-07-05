@@ -43,6 +43,7 @@
 
 
 #include <list>
+#include <vector>
 #include <iostream>
 #include <sstream>
 #include <assert.h>

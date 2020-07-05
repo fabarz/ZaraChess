@@ -86,18 +86,27 @@ ostream & operator<< (ostream & os, ChessGame & cg) {
  *
  ******************************************************************************/
 
-ChessGame::ChessGame() : Board(), undoSitu(0,0,0,0, 'Q') {
+ChessGame::ChessGame() : Board(), undoSitu(0,0,0,0, 'Q'), ppmvs(20) {
+	init();
 }
 
-ChessGame::ChessGame(string & fen) : Board(fen, WHITE, 0, 0, 0, 0, 0), undoSitu(0,0,0,0, 'Q') {
+ChessGame::ChessGame(string & fen) : Board(fen, WHITE, 0, 0, 0, 0, 0), undoSitu(0,0,0,0, 'Q'), ppmvs(20) {
+	init();
 }
 
-ChessGame::ChessGame(ChessGame & other) : Board(other), undoSitu(0,0,0,0,'Q') {
+ChessGame::ChessGame(ChessGame & other) : Board(other), undoSitu(0,0,0,0,'Q'), ppmvs(20) {
+	init();
 }
 
 ChessGame::~ChessGame() {
 	Piece::number[WHITE] = NO_UID;
 	Piece::number[BLACK] = NO_UID;
+}
+
+void ChessGame::init()
+{
+	depth = 5;
+	nodes = 0;
 }
 
 bool ChessGame::checkMove(Move & m) {
@@ -198,12 +207,12 @@ void ChessGame::undoMove( Situation & _situation) {
 
 }
 
-void ChessGame::getSortedLegalMoves (Moves * moves) {
+void ChessGame::getSortedLegalMoves (Moves & moves) {
 
 	getLegalMoves(moves);
 
-	Moves::iterator it = moves->begin();
-	Moves::iterator endIt = moves->end();
+	Moves::iterator it = moves.begin();
+	Moves::iterator endIt = moves.end();
 
 	while (it != endIt) {
 
@@ -234,10 +243,10 @@ void ChessGame::getSortedLegalMoves (Moves * moves) {
 		++it;
 	}
 
-	moves->sort();
+	moves.sort();
 }
 
-void ChessGame::getLegalMoves (Moves * moves) {
+void ChessGame::getLegalMoves (Moves & moves) {
 
 	Move m;
 
@@ -275,7 +284,7 @@ void ChessGame::getLegalMoves (Moves * moves) {
 
 				for (int32_t pp = 0; pp < 4; pp++) {
 					m.promotePiece = possiblePromotion[sideToMove][pp];
-					moves->push_back(m);
+					moves.push_back(m);
 				}
 			}
 
@@ -297,7 +306,7 @@ void ChessGame::getLegalMoves (Moves * moves) {
 				int32_t j = (bitn - 1) / BOARD_SIZE;
 
 				m.x2 = i; m.y2 = j;
-				moves->push_back(m);
+				moves.push_back(m);
 			}
 		}
 	}
@@ -309,7 +318,7 @@ Move ChessGame::listMoves() {
 
 	Moves m;
 
-	getSortedLegalMoves(&m);
+	getSortedLegalMoves(m);
 
 	Moves::iterator it = m.begin();
 	
