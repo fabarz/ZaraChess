@@ -137,7 +137,7 @@
     <ClCompile Include="src\pown.cpp" />
     <ClCompile Include="src\queen.cpp" />
     <ClCompile Include="src\rook.cpp" />
-    <ClCompile Include="src\situation.cpp" />
+    <ClCompile Include="src\moveinfo.cpp" />
     <ClCompile Include="src\square.cpp" />
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
