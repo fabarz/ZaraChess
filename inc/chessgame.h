@@ -66,7 +66,7 @@ class ChessGame : Board {
 
 	~ChessGame();
 
-	int32_t alphaBeta(int32_t depth, int32_t alpha, int32_t beta);
+	int32_t findBestMove();
 
 	friend ostream & operator<< (ostream & os, ChessGame & cg);
 
@@ -141,7 +141,7 @@ class ChessGame : Board {
 
 	int32_t evaluateMove(Move & m);
 
-	Move BESTMOVE;
+	Move bestMove;
 	uint32_t nodes;
 	int depth;
 
@@ -149,6 +149,7 @@ class ChessGame : Board {
 
 	MoveInfo moveInfo;	
 	MovesPossiblePerDepth movesInDepth;
+	int32_t alphaBeta(int32_t depth, int32_t alpha, int32_t beta);
 
 	int32_t halfRandom = (RAND_MAX / 2);
 

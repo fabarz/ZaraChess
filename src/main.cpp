@@ -154,13 +154,14 @@ int main(int32_t argc, char ** argv) {
 	//fen = "kbb2rr/1p/p3p1q/PN1pB/1n/R3Q/5PB/6K"; // mate in 9 ply
 
 	ChessGame * game = new ChessGame(fen);
+	game->depth = depth1;
 
 	cout << *game;
 
 	cout << " \n\t\t\t Mate in 7 ply !!\n";
 
-	string aMove;
-	Move bestmove;
+	string command;
+	Move hamfMove;
 
 	int32_t no = 1;
 	bool go = false;
@@ -168,19 +169,19 @@ int main(int32_t argc, char ** argv) {
 
 	bool computerMove = false;
 
-	while (aMove != "exit") {
+	while (command != "exit") {
 
 		if (!go && computerMove == false) {
-			cin >> aMove;
+			cin >> command;
 		} else {
-			aMove = "look";
+			command = "look";
 			computerMove = false;
 		}
 
-		if (aMove == "exit")
+		if (command == "exit")
 			break;
 
-		else if (aMove == "init") {
+		else if (command == "init") {
 			no = 1;
 			delete game;
 			game = new ChessGame();
@@ -188,26 +189,26 @@ int main(int32_t argc, char ** argv) {
 			continue;
 		}
 
-		else if (aMove == "go") {
+		else if (command == "go") {
 			go = true;
 			continue;
 		}
 
-		else if (aMove == "list") {
+		else if (command == "list") {
 
-			bestmove = game->listMoves();
+			hamfMove = game->listMoves();
 
 			continue;
 
 		}
 
-		else if (aMove == "look") {
+		else if (command == "look") {
 
 			game->nodes = 0;
 
-			v = game->alphaBeta(depth1, -CHECKMATE-100, CHECKMATE+100);
+			v = game->findBestMove();
 
-			bestmove = game->BESTMOVE;
+			hamfMove = game->bestMove;
 
 			cout << "\n\t\t **** " << (unsigned int) game->nodes << " nodes evaluated. ***\n";
 
@@ -216,14 +217,14 @@ int main(int32_t argc, char ** argv) {
 			else
 				cout << no << ". ";
 
-			cout << bestmove << " " ;
+			cout << hamfMove << " " ;
 
-			if (abs(bestmove.value) >= CHECKMATE) {
+			if (abs(hamfMove.value) >= CHECKMATE) {
 
-				cout << " CHECKMATE in " << (int) (depth1 - (abs(bestmove.value) - CHECKMATE)) << endl;
+				cout << " CHECKMATE in " << (int) (game->depth - (abs(hamfMove.value) - CHECKMATE)) << endl;
 
 			} else {
-				cout << (int) bestmove.value << endl;
+				cout << (int) hamfMove.value << ":" << v << endl;
 			}
 
 			if (!game->nodes) {
@@ -236,14 +237,14 @@ int main(int32_t argc, char ** argv) {
 
 		}
 
-		else if (aMove == "undo") {
+		else if (command == "undo") {
 			game->undoMove();
 			cout << *game;
 			continue;
 
 		}
 
-		else if (aMove == "fen") {
+		else if (command == "fen") {
 			string fen;
 			cout << "Enter the fen notation : ";
 			cin >> fen;
@@ -253,45 +254,46 @@ int main(int32_t argc, char ** argv) {
 			continue;
 		}
 		
-		else if (aMove == "depth") {
+		else if (command == "depth") {
 			cout << "Enter the desired depth : ";
 			cin >> depth1;
 			if (depth1 < 0) depth1 = 2;
-			if (depth1 > 9) depth1 = 9;
+			if (depth1 > 50) depth1 = 50;
 
 			cout << " Setting depth to " << depth1 << endl;
+			game->depth = depth1;
 			continue;
 		}
-		else if (aMove == "help" || aMove == "?") {
+		else if (command == "help" || command == "?") {
 			help();
 			continue;
 		}
 
 		else {
 			v = -1;
-			bestmove = aMove;
+			hamfMove = command;
 
 			if (game->getSideToMove() == BLACK) {
-				bestmove.promotePiece = 'q';
+				hamfMove.promotePiece = 'q';
 			} else {
-				bestmove.promotePiece = 'Q';
+				hamfMove.promotePiece = 'Q';
 			}
 
-			aMove = "look";
+			command = "look";
 			computerMove = true;
 		}
 
-		if (game->checkMove(bestmove)) {
+		if (game->checkMove(hamfMove)) {
 
 			if (game->getSideToMove() == BLACK) {
 				no++;
 			}
 
-			int32_t v1 = game->evaluateMove(bestmove);
+			int32_t v1 = game->evaluateMove(hamfMove);
 
 			cout << " First I thought the value was = " << (int) v1 << endl;
 
-			game->makeMove(bestmove);
+			game->makeMove(hamfMove);
 			cout << *game;
 
 		} else {

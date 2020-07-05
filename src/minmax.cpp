@@ -43,6 +43,12 @@
 
 #include "chessgame.h"
 
+int32_t ChessGame::findBestMove()
+{
+	nodes = 0;
+	return alphaBeta(depth, -CHECKMATE - 100, CHECKMATE + 100);
+}
+
 int32_t ChessGame::alphaBeta(int32_t _depth, int32_t alpha, int32_t beta) {
 	ChessGame * cg = this;
 
@@ -134,14 +140,14 @@ int32_t ChessGame::alphaBeta(int32_t _depth, int32_t alpha, int32_t beta) {
 			if (_depth == depth) {
 
 				mit->value = alpha;
-				BESTMOVE = *mit;
-				cout << "\r ==>> " << BESTMOVE << " - " << opponentsMove << " - " << my2Move
+				bestMove = *mit;
+				cout << "\r ==>> " << bestMove << " - " << opponentsMove << " - " << my2Move
 					<< " = ";
 
-				if (abs(BESTMOVE.value) >= CHECKMATE) {
-					cout << "CHECKMATE in " << depth - (abs(BESTMOVE.value) - CHECKMATE);
+				if (abs(bestMove.value) >= CHECKMATE) {
+					cout << "CHECKMATE in " << depth - (abs(bestMove.value) - CHECKMATE);
 				} else {
-					cout << BESTMOVE.value;
+					cout << bestMove.value;
 				}
 
 				cout << "                                                       ";
