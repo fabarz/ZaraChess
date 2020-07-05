@@ -170,8 +170,8 @@ Board::Board(string & fen, Color sidesMove, Square * enPas, bool wccqs, bool wcc
 			squares[ii][j] = new Square(ii, j, this);
 
 
-	int32_t s = fen.size();
-	int32_t i = 0;
+	size_t s = fen.size();
+	size_t i = 0;
 	int32_t x = 0;
 	int32_t y = 7;
 	char c;

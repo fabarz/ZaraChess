@@ -49,8 +49,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-//#include <common/plftyp.h>
-
 
 using namespace std;
 

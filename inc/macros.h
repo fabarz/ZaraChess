@@ -1,5 +1,4 @@
 #include <assert.h>
-//#include <common/plftyp.h>
 #include "chess.h"
 
 extern const char firstBitSet256[256];
@@ -7,10 +6,10 @@ extern const uint16_t mask16On[16];
 extern const uint32_t mask16Off[16];
 extern const uint32_t mask32On[32];
 extern const uint32_t mask32Off[32];
-extern const unsigned __int64 mask64On[64];
-extern const unsigned __int64 mask64On_2[8][8];
-extern const unsigned __int64 mask64Off_2[8][8];
-extern const unsigned __int64 mask64Off[64];
+extern const __int64 mask64On[64];
+extern const __int64 mask64On_2[8][8];
+extern const __int64 mask64Off_2[8][8];
+extern const __int64 mask64Off[64];
 extern const char bits[256];    
 
 #define firstBitSet64(val, bitnr) {									\
