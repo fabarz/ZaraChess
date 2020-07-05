@@ -1,5 +1,5 @@
 #include <assert.h>
-#include <common/plftyp.h>
+//#include <common/plftyp.h>
 #include "chess.h"
 
 extern const char firstBitSet256[256];

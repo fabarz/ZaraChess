@@ -107,7 +107,7 @@ void help() {
 
 int main(int32_t argc, char ** argv) {
 
-	srandom(time(0));
+	srand(time(0));
 
 	cout << "Hi Moon!\n";
 

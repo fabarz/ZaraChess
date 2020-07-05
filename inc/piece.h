@@ -31,7 +31,7 @@
 #if !defined PIECE_H_INCLUDED
 #define PIECE_H_INCLUDED
 
-#include <common/plftyp.h>
+//#include <common/plftyp.h>
 #include "chess.h"
 #include "macros.h"
 
