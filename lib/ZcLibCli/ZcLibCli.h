@@ -37,10 +37,16 @@ namespace ZcLibCli {
 		String^ Dump();
 		String^ ListMoves();
 		String^ GetBestMove();
+		int GetBestValue();
 		String^ SideToMove();
 		void UndoMove();
 		bool CheckMove(String^ move);
+		void SetPromotionPiece(char p)
+		{
+			m_Instance->setPromotionPiece(p);
+		}
 		int EvaluateMove(String^ move);
 		void MakeMove(String^ move);
+		String^ GetStack();
 	};
 }

@@ -69,7 +69,7 @@ ostream & operator<< (ostream & os, ChessGame & cg) {
 		}
 		os << "| "  << (int) (jj + 1) << endl;
 		if (jj > 0)
-			cout << endl;
+			os << endl;
 	}
 	os << "\t\t  --------------------------\n";
 	os << "\t\t    A  B  C  D  E  F  G  H  \n";
@@ -103,6 +103,7 @@ void ChessGame::init()
 {
 	depth = 5;
 	nodes = 0;
+	promoPiece = 'Q';
 }
 
 bool ChessGame::checkMove(Move & m) {
@@ -214,14 +215,12 @@ void ChessGame::getSortedLegalMoves (MovesPossible & moves) {
 
 		makeMove(*it);
 		
-		/*if (repeated) {			
+		if (repeated) {			
 		
 			repeated = false;
 			it->value = 0;
 
-		} else */
-		
-		if (nMoves[sideToMove] == 0) {
+		} else if (nMoves[sideToMove] == 0) {
 			
 			if (KINGS[sideToMove]->isCheck()) {
 				it->value = CHECKMATE;

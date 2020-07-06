@@ -108,7 +108,7 @@ ostream & operator << (ostream & os, Board & cg) {
 		}
 		os << "| "  << (int) (jj + 1) << endl;
 		if (jj > 0)
-			cout << endl;
+			os << endl;
 	}
 	os << "\t\t  --------------------------\n";
 	os << "\t\t    A  B  C  D  E  F  G  H  \n";

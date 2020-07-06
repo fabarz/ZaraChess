@@ -81,8 +81,21 @@ void ChessGame::make(const char * move)
 {
 	Move mv;
 	mv = std::string(move);
-	mv.promotePiece = 'Q'; //??? or 'q'
+	mv.promotePiece = promoPiece;
 	makeMove(mv);
+}
+
+const char * ChessGame::getStack()
+{
+	stringstream os;
+	MoveInfoStack::iterator it = moveInfoStack.begin();
+	while (it != moveInfoStack.end())
+	{
+		os << *it << endl;
+		++it;
+	}
+	strMemory = os.str();
+	return strMemory.c_str();
 }
 
 int32_t ChessGame::findBestMove()
@@ -183,6 +196,7 @@ int32_t ChessGame::alphaBeta(int32_t _depth, int32_t alpha, int32_t beta) {
 
 				mit->value = alpha;
 				bestMove = *mit;
+				bestVal = mit->value;
 				// cout << "\r ==>> " << bestMove << " - " << opponentsMove << " - " << my2Move << " = ";
 
 				if (abs(bestMove.value) >= CHECKMATE) {

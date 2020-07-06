@@ -78,6 +78,12 @@ int main()
 
 		else if (command == "show") {
 			Console::WriteLine(game->Dump());
+			continue;
+		}
+
+		else if (command == "stack") {
+			Console::WriteLine(game->GetStack());
+			continue;
 		}
 
 		else if (command == "look") {
@@ -85,7 +91,7 @@ int main()
 			op = game->GetBestMove();
 			halfMove = op;
 
-			Console::Clear();
+			//Console::Clear();
 			Console::WriteLine("\n\t\t **** " + (unsigned int)game->Nodes + " nodes evaluated. ***\n");
 
 			if (game->SideToMove() == "BLACK")
@@ -93,7 +99,7 @@ int main()
 			else
 				Console::Write(no + ". ");
 
-			Console::WriteLine(op + " ");
+			Console::WriteLine(op + " (" + game->GetBestValue() + ")");
 
 			/*
 			if (abs(hamfMove.value) >= CHECKMATE) {
@@ -144,7 +150,7 @@ int main()
 			}
 			depth = Convert::ToInt32(dep);
 			game->depth = depth;
-			Console::WriteLine("Using depth " + depth);
+			Console::WriteLine("Using depth " + game->depth);
 			continue;
 		}
 		else if (command == "help" || command == "?") {
@@ -169,14 +175,17 @@ int main()
 
 		if (game->CheckMove(halfMove)) {
 
+			char promotionPiece = 'Q';
 			if (game->SideToMove() == "BLACK") {
+				promotionPiece = 'q';
 				no++;
 			}
 
 			int v1 = game->EvaluateMove(halfMove);
 
-			Console::WriteLine(" First I thought the value was = " + (int)v1);
+			//Console::WriteLine(" First I thought the value was = " + (int)v1);
 
+			game->SetPromotionPiece(promotionPiece);
 			game->MakeMove(halfMove);
 			Console::WriteLine(game->Dump());
 

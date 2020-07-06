@@ -77,11 +77,19 @@ class ChessGame : Board {
 
 	const char * list();
 	const char * best();
+	int32_t bestValue()
+	{
+		return bestVal;
+	}
 	const char * side();
 	bool check(const char * move);
 	int evaluate(const char * move);
+	void setPromotionPiece(char p)
+	{
+		promoPiece = p;
+	}
 	void make(const char * move);
-
+	const char * getStack();
 	int32_t findBestMove();
 
 	friend ostream & operator<< (ostream & os, ChessGame & cg);
@@ -102,10 +110,16 @@ class ChessGame : Board {
 
 		//Find out weather it is remese by repetition
 
-		if (moveInfoStack.size() < 6) return;
+		if (moveInfoStack.size() < 8) return;
 
 		MoveInfoStack::iterator it = moveInfoStack.end();
 		
+		--it;
+		MoveInfoStack::iterator sit8 = it;	//B
+
+		--it;
+		MoveInfoStack::iterator sit7 = it;	//W
+
 		--it;
 		MoveInfoStack::iterator sit6 = it;	//B
 
@@ -113,26 +127,22 @@ class ChessGame : Board {
 		MoveInfoStack::iterator sit5 = it; //W
 
 		--it;
-		//Situations::iterator sit4 = it; //B
+		MoveInfoStack::iterator sit4 = it; //B
 
 		--it;
-		//Situations::iterator sit3 = it; //W
+		MoveInfoStack::iterator sit3 = it; //W
 
 		--it;
 		MoveInfoStack::iterator sit2 = it; //B
 
 		--it;
 		MoveInfoStack::iterator sit1 = it; //W
-		
-		/*if (sit1->s1 == sit3->s2 && sit1->s2 == sit3->s1 
-			&& sit2->s1 == sit4->s2 && sit2->s2 == sit4->s1
-			&& sit3->s1 == sit5->s2 && sit3->s2 == sit5->s1
-			&& sit4->s1 == sit6->s2 && sit4->s2 == sit6->s1) { */
 
-		if (*sit6 == *sit2 && *sit5 == *sit1) {
+		if (*sit1 == *sit5 && *sit4 == *sit8 && *sit2 == *sit6 && *sit3 == *sit7) {
 
 			//Is this ok ?????
-
+			cout << "Remise 2\n";
+			cout << getStack() << "\n";
 			repeated = true;
 		}
 	}
@@ -155,9 +165,11 @@ class ChessGame : Board {
 
 	Color getSideToMove() {return sideToMove; }
 
+	char promoPiece;
 	int32_t evaluateMove(Move & m);
 
 	Move bestMove;
+	int32_t bestVal;
 	uint32_t nodes;
 	void setDepth(int val)
 	{

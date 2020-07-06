@@ -39,6 +39,11 @@ String ^ ZcLibCli::ZaraChess::GetBestMove()
 	return str;
 }
 
+int ZcLibCli::ZaraChess::GetBestValue()
+{
+	return m_Instance->bestValue();
+}
+
 String ^ ZcLibCli::ZaraChess::SideToMove()
 {
 	const char * op = m_Instance->side();
@@ -71,4 +76,11 @@ MakeMove(String ^ move)
 {
 	const char * mv = string_to_char_array(move);
 	return m_Instance->make(mv);
+}
+
+String ^ ZcLibCli::ZaraChess::GetStack()
+{
+	const char * op = m_Instance->getStack();
+	String ^ str = marshal_as<String ^>(op);
+	return str;
 }

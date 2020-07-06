@@ -1,10 +1,10 @@
 
 #include "moveinfo.h"
 
-#define DUMP_SQUARE(x) if (x) cout << "\t" << #x << " =:= " << x->getName() << endl
+#define DUMP_SQUARE(x) if (x) os << "\t" << #x << " =:= " << x->getName() << endl
 
 ostream & operator<< (ostream & os, MoveInfo & s) {
-	cout << "Situation dump:\n";
+	os << "Situation dump:\n";
 	DUMP_SQUARE(s.s1);
 	DUMP_SQUARE(s.s2);
 	DUMP_SQUARE(s.s3);
@@ -14,6 +14,6 @@ ostream & operator<< (ostream & os, MoveInfo & s) {
 	DUMP_SQUARE(s.killedAt);
 	DUMP_SQUARE(s.passantSquareCre);
 	DUMP_SQUARE(s.passantSquareDel);
-	cout << "\tPromotePiece =:= " << s.promotePiece <<endl;
+	os << "\tPromotePiece =:= " << s.promotePiece <<endl;
 	return os;
 }

@@ -24,7 +24,8 @@ class MoveInfo {
 	}
 
 	bool operator == (MoveInfo & other) {	/* Is this good enough ???? */
-		return other.s1 == s1 && other.s2 == s2 && other.mover == mover;
+		return other.s1 == s1 && other.s2 == s2 && other.mover == mover && other.killed == killed &&
+			other.killedAt == killedAt && other.col == col;
 	}
 
 	class Board * b;
