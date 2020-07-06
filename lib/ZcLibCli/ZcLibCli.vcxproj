@@ -20,10 +20,10 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{DFC29B55-01AB-4018-84FB-8D21FDAB376B}</ProjectGuid>
+    <ProjectGuid>{D4EA79C0-B119-4364-ADE1-EDFE72F66695}</ProjectGuid>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
-    <RootNamespace>zclib</RootNamespace>
+    <RootNamespace>ZcLibCli</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -133,6 +133,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\inc\bishop.h" />
+    <ClInclude Include="..\..\inc\board.h" />
+    <ClInclude Include="..\..\inc\chess.h" />
+    <ClInclude Include="..\..\inc\chessgame.h" />
+    <ClInclude Include="..\..\inc\king.h" />
+    <ClInclude Include="..\..\inc\knight.h" />
+    <ClInclude Include="..\..\inc\macros.h" />
+    <ClInclude Include="..\..\inc\move.h" />
+    <ClInclude Include="..\..\inc\moveinfo.h" />
+    <ClInclude Include="..\..\inc\piece.h" />
+    <ClInclude Include="..\..\inc\pown.h" />
+    <ClInclude Include="..\..\inc\queen.h" />
+    <ClInclude Include="..\..\inc\rook.h" />
+    <ClInclude Include="..\..\inc\square.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ZcLibCli.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="..\..\src\bishop.cpp" />
     <ClCompile Include="..\..\src\board.cpp" />
     <ClCompile Include="..\..\src\chessgame.cpp" />
@@ -148,7 +167,13 @@
     <ClCompile Include="..\..\src\square.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="ZaraChess.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ZcLibCli.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />
@@ -160,24 +185,6 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\inc\bishop.h" />
-    <ClInclude Include="..\..\inc\board.h" />
-    <ClInclude Include="..\..\inc\chess.h" />
-    <ClInclude Include="..\..\inc\chessgame.h" />
-    <ClInclude Include="..\..\inc\king.h" />
-    <ClInclude Include="..\..\inc\knight.h" />
-    <ClInclude Include="..\..\inc\macros.h" />
-    <ClInclude Include="..\..\inc\move.h" />
-    <ClInclude Include="..\..\inc\moveinfo.h" />
-    <ClInclude Include="..\..\inc\piece.h" />
-    <ClInclude Include="..\..\inc\pown.h" />
-    <ClInclude Include="..\..\inc\queen.h" />
-    <ClInclude Include="..\..\inc\rook.h" />
-    <ClInclude Include="..\..\inc\square.h" />
-    <ClInclude Include="ZaraChess.h" />
-    <ClInclude Include="ManagedObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

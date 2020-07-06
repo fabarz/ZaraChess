@@ -61,10 +61,26 @@ class ChessGame : Board {
 	public :
 
 	ChessGame();
-	ChessGame(string & fen);
+	ChessGame(const char * fen);
 	ChessGame(ChessGame & other);
 
 	~ChessGame();
+
+	const char * dump()
+	{
+		std::ostringstream stream;
+		stream << *this;
+		strMemory = stream.str();
+		const char* chr = strMemory.c_str();
+		return chr;
+	}
+
+	const char * list();
+	const char * best();
+	const char * side();
+	bool check(const char * move);
+	int evaluate(const char * move);
+	void make(const char * move);
 
 	int32_t findBestMove();
 
@@ -135,7 +151,7 @@ class ChessGame : Board {
 		undoMove(moveInfo);
 	}
 
-	Move listMoves();
+	string listMoves();
 
 	Color getSideToMove() {return sideToMove; }
 
@@ -143,10 +159,21 @@ class ChessGame : Board {
 
 	Move bestMove;
 	uint32_t nodes;
-	int depth;
+	void setDepth(int val)
+	{
+		if (val > 0)
+		{
+			depth = val;
+		}
+	}
 
+	int getDepth()
+	{
+		return depth;
+	}
 	private :
-
+	int depth;
+	string strMemory;
 	MoveInfo moveInfo;	
 	MovesPossiblePerDepth movesInDepth;
 	int32_t alphaBeta(int32_t depth, int32_t alpha, int32_t beta);

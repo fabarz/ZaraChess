@@ -86,7 +86,7 @@ ChessGame::ChessGame() : Board(), moveInfo(0,0,0,0, 'Q'), movesInDepth(20) {
 	init();
 }
 
-ChessGame::ChessGame(string & fen) : Board(fen, WHITE, 0, 0, 0, 0, 0), moveInfo(0,0,0,0, 'Q'), movesInDepth(20) {
+ChessGame::ChessGame(const char * fen) : Board(string(fen), WHITE, 0, 0, 0, 0, 0), moveInfo(0,0,0,0, 'Q'), movesInDepth(20) {
 	init();
 }
 
@@ -308,7 +308,7 @@ void ChessGame::getLegalMoves (MovesPossible & moves) {
 	}
 }
 
-Move ChessGame::listMoves() {
+string ChessGame::listMoves() {
 
 	Move result;
 
@@ -317,10 +317,10 @@ Move ChessGame::listMoves() {
 	getSortedLegalMoves(m);
 
 	MovesPossible::iterator it = m.begin();
-	
+	ostringstream os;
 	while (it != m.end()) {
 		Move m1 = *it;
-		cout << m1 << " = " << m1.value << endl;
+		os << m1 << " = " << m1.value << endl;
 		++it;
 	}
 
@@ -328,7 +328,7 @@ Move ChessGame::listMoves() {
 		result = *(m.begin());
 	}
 
-	return result;
+	return os.str();
 
 }
 

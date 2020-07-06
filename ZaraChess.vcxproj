@@ -125,11 +125,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="Program.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="lib\zclib\zclib.vcxproj">
-      <Project>{dfc29b55-01ab-4018-84fb-8d21fdab376b}</Project>
+    <ProjectReference Include="lib\ZcLibCli\ZcLibCli.vcxproj">
+      <Project>{d4ea79c0-b119-4364-ade1-edfe72f66695}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

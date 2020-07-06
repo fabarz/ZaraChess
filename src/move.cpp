@@ -22,6 +22,7 @@ ostream & operator << (ostream & os, const Move & m) {
 	if (m.promotePiece)
 		os << "(" << m.promotePiece << ")";
 
+	os << " " << m.value;
 	return os;
 }
 

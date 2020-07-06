@@ -43,6 +43,48 @@
 
 #include "chessgame.h"
 
+const char * ChessGame::list()
+{
+	strMemory = listMoves();
+	return strMemory.c_str();
+}
+
+const char * ChessGame::best()
+{
+	findBestMove();
+	strMemory = bestMove.toString();
+	return strMemory.c_str();
+}
+
+const char * ChessGame::side()
+{
+	return sideToMove == BLACK ? "BLACK" : "WHITE";
+}
+
+bool ChessGame::check(const char * move)
+{
+	Move mv;
+	mv = std::string(move);
+	mv.promotePiece = 'Q'; //??? or 'q'
+	return checkMove(mv);
+}
+
+int ChessGame::evaluate(const char * move)
+{
+	Move mv;
+	mv = std::string(move);
+	mv.promotePiece = 'Q'; //??? or 'q'
+	return evaluateMove(mv);
+}
+
+void ChessGame::make(const char * move)
+{
+	Move mv;
+	mv = std::string(move);
+	mv.promotePiece = 'Q'; //??? or 'q'
+	makeMove(mv);
+}
+
 int32_t ChessGame::findBestMove()
 {
 	nodes = 0;
@@ -50,6 +92,7 @@ int32_t ChessGame::findBestMove()
 }
 
 int32_t ChessGame::alphaBeta(int32_t _depth, int32_t alpha, int32_t beta) {
+	// cout << _depth << endl;
 	ChessGame * cg = this;
 
 	if (cg->nMoves[cg->sideToMove] == 0) {
@@ -101,8 +144,7 @@ int32_t ChessGame::alphaBeta(int32_t _depth, int32_t alpha, int32_t beta) {
 			levelUp = *mit;
 		} else {
 			if (_depth == depth - 1) {
-				cout << "\r    " << levelUp << " " << *mit << " (Node " << (int) nodes << ") alpha = "
-					<< alpha << " & beta = " << beta << "          ";
+				// cout << "\r    " << levelUp << " " << *mit << " (Node " << (int) nodes << ") alpha = " << alpha << " & beta = " << beta << "          ";
 			}
 		}
 
@@ -141,16 +183,15 @@ int32_t ChessGame::alphaBeta(int32_t _depth, int32_t alpha, int32_t beta) {
 
 				mit->value = alpha;
 				bestMove = *mit;
-				cout << "\r ==>> " << bestMove << " - " << opponentsMove << " - " << my2Move
-					<< " = ";
+				// cout << "\r ==>> " << bestMove << " - " << opponentsMove << " - " << my2Move << " = ";
 
 				if (abs(bestMove.value) >= CHECKMATE) {
-					cout << "CHECKMATE in " << depth - (abs(bestMove.value) - CHECKMATE);
+					// cout << "CHECKMATE in " << depth - (abs(bestMove.value) - CHECKMATE);
 				} else {
-					cout << bestMove.value;
+					// cout << bestMove.value;
 				}
 
-				cout << "                                                       ";
+				// cout << "                                                       ";
 
 			} else if (_depth == depth - 1) {
 
@@ -163,7 +204,7 @@ int32_t ChessGame::alphaBeta(int32_t _depth, int32_t alpha, int32_t beta) {
 			}
 
 			if (eval == CHECKMATE + _depth - 1) {
-				//cout << " Direct mate "; 
+				// cout << " Direct mate "; 
 				return eval;
 			}
 		}
